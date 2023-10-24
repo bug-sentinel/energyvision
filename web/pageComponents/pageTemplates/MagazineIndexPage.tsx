@@ -96,7 +96,7 @@ const MagazineIndexPage = ({ isServerRendered = false, locale, pageData, slug, u
             isServerRendered
               ? searchClient({
                   headers: {
-                    Referer: url,
+                    Referer: '*',
                   },
                 })
               : searchClient(undefined)

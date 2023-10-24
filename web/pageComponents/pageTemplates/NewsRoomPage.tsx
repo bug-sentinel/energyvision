@@ -207,7 +207,7 @@ const NewsRoomPage = ({ isServerRendered, locale, pageData, slug, url }: NewsRoo
                 isServerRendered
                   ? searchClient({
                       headers: {
-                        Referer: url,
+                        Referer: '*',
                       },
                     })
                   : searchClient(undefined)
