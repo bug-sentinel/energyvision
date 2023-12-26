@@ -90,45 +90,45 @@ jobs:
         with:
           repository: 'equinor/energyvision'
           fetch-depth: 0
-  #      - name: Get long sha ️🏷️
-  #        id: get-long-sha
-  #        shell: bash
-  #        run: |
-  #          echo "sha=$(git rev-parse ${{ github.event.inputs.image-sha }})" >> $GITHUB_OUTPUT
-  #      - name: Checkout 🛎️
-  #       id: checkout-specific-branch
-  #        uses: actions/checkout@v3
-  #        with:
-  #          repository: 'equinor/energyvision'
-  #          fetch-depth: 0
-  #          ref: '${{ steps.get-long-sha.outputs.sha }}'
-  #      - name: Install pnpm 📦
-  #        id: install-pnpm
-  #        uses: pnpm/action-setup@v2.2.4
-  #        with:
-  #          version: '8.5.1'
-  #      - name: Cache pnpm modules 💾
-  #        uses: actions/setup-node@v3
-  #        with:
-  #          node-version: 18
-  #          cache: 'pnpm'
-  #      - name: Install dependencies 🔧
-  #        id: install-dependencies
-  #        run: |
-  #          pnpm install
-  #          pnpm sanityv3 install
-  #      - name: Deploy 🚀
-  #        id: deploy
-  #        working-directory: ./sanityv3
-  #        run: |
-  #          pnpm run deploy
-  #        env:
-  #          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY }}
-  #      - uses: act10ns/slack@v2
-  #        with:
-  #          status: ${{ job.status }}
-  #          steps: ${{ toJson(steps) }}
-  #        if: failure()
+      - name: Get long sha ️🏷️
+        id: get-long-sha
+        shell: bash
+        run: |
+          echo "sha=$(git rev-parse ${{ github.event.inputs.image-sha }})" >> $GITHUB_OUTPUT
+      - name: Checkout 🛎️
+        id: checkout-specific-branch
+        uses: actions/checkout@v3
+        with:
+          repository: 'equinor/energyvision'
+          fetch-depth: 0
+          ref: '${{ steps.get-long-sha.outputs.sha }}'
+      - name: Install pnpm 📦
+        id: install-pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: '8.5.1'
+      - name: Cache pnpm modules 💾
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies 🔧
+        id: install-dependencies
+        run: |
+          pnpm install
+          pnpm sanityv3 install
+      - name: Deploy 🚀
+        id: deploy
+        working-directory: ./sanityv3
+        run: |
+          pnpm run deploy
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_DEPLOY }}
+      - uses: act10ns/slack@v2
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
 
   rollback-secret:
     runs-on: ubuntu-latest
@@ -159,45 +159,45 @@ jobs:
           repository: 'equinor/energyvision'
           fetch-depth: 0
           ref: '${{ steps.get-preprod-sha.outputs.sha }}'
-  #      - name: Get long sha ️🏷️
-  #        id: get-long-sha
-  #        shell: bash
-  #        run: |
-  #         echo "sha=$(git rev-parse ${{ github.event.inputs.image-sha }})" >> $GITHUB_OUTPUT
-  #      - name: Checkout 🛎️
-  #        id: checkout-specific-branch
-  #        uses: actions/checkout@v3
-  #        with:
-  #          repository: 'equinor/energyvision'
-  #          fetch-depth: 0
-  #          ref: '${{ steps.get-long-sha.outputs.sha }}'
-  #      - name: Install pnpm 📦
-  #        id: install-pnpm
-  #        uses: pnpm/action-setup@v2.2.4
-  #        with:
-  #          version: '8.5.1'
-  #      - name: Cache pnpm modules 💾
-  #        uses: actions/setup-node@v3
-  #        with:
-  #          node-version: 18
-  #          cache: 'pnpm'
-  #      - name: Install dependencies 🔧
-  #        id: install-dependencies
-  #        run: |
-  #          pnpm install
-  #          pnpm sanityv3 install
-  #      - name: Deploy 🚀
-  #        id: deploy
-  #        working-directory: ./sanityv3
-  #        run: |
-  #          pnpm run deploy
-  #        env:
-  #          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SECRET_DEPLOY }}
-  #      - uses: act10ns/slack@v2
-  #        with:
-  #          status: ${{ job.status }}
-  #          steps: ${{ toJson(steps) }}
-  #        if: failure()
+      - name: Get long sha ️🏷️
+        id: get-long-sha
+        shell: bash
+        run: |
+          echo "sha=$(git rev-parse ${{ github.event.inputs.image-sha }})" >> $GITHUB_OUTPUT
+      - name: Checkout 🛎️
+        id: checkout-specific-branch
+        uses: actions/checkout@v3
+        with:
+          repository: 'equinor/energyvision'
+          fetch-depth: 0
+          ref: '${{ steps.get-long-sha.outputs.sha }}'
+      - name: Install pnpm 📦
+        id: install-pnpm
+        uses: pnpm/action-setup@v2.2.4
+        with:
+          version: '8.5.1'
+      - name: Cache pnpm modules 💾
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'pnpm'
+      - name: Install dependencies 🔧
+        id: install-dependencies
+        run: |
+          pnpm install
+          pnpm sanityv3 install
+      - name: Deploy 🚀
+        id: deploy
+        working-directory: ./sanityv3
+        run: |
+          pnpm run deploy
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SECRET_DEPLOY }}
+      - uses: act10ns/slack@v2
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+        if: failure()
 
   update-radix-config:
     needs: find-image
