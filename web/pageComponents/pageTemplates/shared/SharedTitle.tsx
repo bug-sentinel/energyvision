@@ -13,7 +13,7 @@ const StyledHeading = styled(TitleText)`
 
 const SharedTitle = ({ sharedTitle, background }: SharedTitleProps) => {
   return (
-    <BackgroundContainer background={background}>
+    <BackgroundContainer background={background} isTrueComponent={false}>
       <StyledHeading value={sharedTitle} level="h1" size="3xl" />
     </BackgroundContainer>
   )

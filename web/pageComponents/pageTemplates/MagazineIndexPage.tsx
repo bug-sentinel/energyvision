@@ -81,7 +81,7 @@ const MagazineIndexPage = ({ isServerRendered = false, locale, pageData, slug, u
         {pageData?.hero.type !== HeroTypes.DEFAULT && title && (
           <SharedTitle sharedTitle={title} background={ingress.background} />
         )}
-        <BackgroundContainer background={ingress.background}>
+        <BackgroundContainer background={ingress.background} isTrueComponent={false}>
           <Intro>
             {ingress && (
               <IngressWrapper>

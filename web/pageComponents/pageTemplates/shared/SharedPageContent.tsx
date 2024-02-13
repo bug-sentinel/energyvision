@@ -21,6 +21,8 @@ import VideoPlayer from '../../shared/VideoPlayer'
 import VideoPlayerCarousel from '../../shared/VideoPlayerCarousel'
 import TextTeaser from '../../shared/textTeaser/TextTeaser'
 import KeyNumbers from '../../topicPages/KeyNumbers/KeyNumbers'
+import { memo, useMemo } from 'react'
+
 import {
   AnchorLinkData,
   TopicPageSchema,
@@ -50,6 +52,9 @@ import {
   TextTeaserData,
   KeyNumbersData,
 } from '../../../types/types'
+
+import { FixedBackground } from './FixedBackground'
+import { BackgroundContextProvider } from '@components/Backgrounds/BackgroundContext'
 
 // How could we do this for several different component types?
 type ComponentProps =
@@ -136,5 +141,10 @@ export const PageContent = ({ data }: PageContentProps) => {
         return null
     }
   })
-  return <>{content}</>
+
+  return (
+    <BackgroundContextProvider>
+      <FixedBackground>{content}</FixedBackground>
+    </BackgroundContextProvider>
+  )
 }

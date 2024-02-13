@@ -109,7 +109,7 @@ const PromoTileArray = ({ data, anchor }: { data: PromoTileArrayData; anchor?: s
           )
 
         return (
-          <StyledBackgroundContainer background={background} key={id}>
+          <StyledBackgroundContainer background={background} key={id} isTrueComponent={false}>
             <StyledCard type="promo" textOnly={!image} style={{ '--card-height': '100%' } as CSSProperties}>
               {image && (
                 <Media>

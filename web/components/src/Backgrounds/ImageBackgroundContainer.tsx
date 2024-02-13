@@ -13,20 +13,19 @@ type ImageContainerProps = {
 } & HTMLAttributes<HTMLDivElement>
 
 const ImageContainer = styled.div<ImageContainerProps>`
-  position: relative;
+  /*position: relative;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: ${({ imageUrl }) => (imageUrl ? `url(${imageUrl})` : '')};
-  ${({ isInverted }) => (isInverted ? inverted : normal)}
+  ${({ isInverted }) => (isInverted ? inverted : normal)}*/
 `
 
 const DEFAULT_MAX_WIDTH = 1920
 
 const AnimationWrapper = styled.div`
   /* Create View Timeline */
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(255, 255, 255, 1) 70%);
   section {
     width: 40vw;
     margin-right: 0;

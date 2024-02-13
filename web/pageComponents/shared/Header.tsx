@@ -159,7 +159,7 @@ const Header = ({ slugs, menuData }: HeaderProps) => {
     <HeaderRelative>
       <HeadTags slugs={slugs} />
       <TopbarOffset />
-      <BackgroundContainer>
+      <BackgroundContainer isTrueComponent={false}>
         <Topbar>
           <TopbarContainer>
             <LogoLinkInGrid />

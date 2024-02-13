@@ -14,7 +14,7 @@ import getIntl from '../common/helpers/getIntl'
 import { getRoutePaths } from '../common/helpers/getPaths'
 import getPageSlugs from '../common/helpers/getPageSlugs'
 import { getComponentsData } from '../lib/fetchData'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import { PreviewContext } from '../lib/contexts/PreviewContext'
 
 const MagazinePage = dynamic(() => import('../pageComponents/pageTemplates/MagazinePage'))
@@ -33,7 +33,9 @@ export default function Page({ data, preview = false }: any) {
     setIsPreview(preview)
   }, [setIsPreview, preview])
 
-  const { pageData } = data
+  const { pageData } = useMemo(() => {
+    return data
+  }, [data])
 
   const slug = pageData?.slug
   if (!router.isFallback && !slug && !data?.queryParams?.id) {

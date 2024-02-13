@@ -21,6 +21,7 @@ type Props = {
 export const TopbarDropdown = ({ isOpen, children, ...rest }: Props) => {
   return (
     <StyledTopbarDropdown
+      isTrueComponent={false}
       style={
         {
           '--display': isOpen ? 'block' : 'none',

@@ -83,7 +83,7 @@ const HeroActionLink = ({ action, ...rest }: { action: LinkData }) => {
 export const FiftyFiftyHero = ({ title, ingress, link, background, figure, isBigTitle }: HeroType) => {
   return (
     <>
-      <StyledHero background={background}>
+      <StyledHero background={background} isTrueComponent={false}>
         <StyledMedia>
           {figure && (
             <Image

@@ -54,7 +54,7 @@ export const DefaultHero = ({ title, image, isBigTitle, bigTitle }: Props) => {
         </>
       )}
       {!isBigTitle && <HeroBanner>{title && <StyledHeading value={title} level="h1" size="3xl" />}</HeroBanner>}
-      <ImageWrapper>{image && <DefaulHeroImage data={image} />}</ImageWrapper>
+      <ImageWrapper isTrueComponent={false}>{image && <DefaulHeroImage data={image} />}</ImageWrapper>
     </>
   )
 }

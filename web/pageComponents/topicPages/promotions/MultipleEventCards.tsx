@@ -101,7 +101,7 @@ const MultipleEventCards = ({
         <Carousel horizontalPadding={true}>
           {data.map((item) => {
             return (
-              <StyledBackground key={item.id}>
+              <StyledBackground key={item.id} isTrueComponent={false}>
                 <StyledEventsCard data={item} hasSectionTitle={hasSectionTitle} key={item.id} />
               </StyledBackground>
             )

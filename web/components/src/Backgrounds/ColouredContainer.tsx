@@ -9,10 +9,11 @@ type ColouredContainerProps = {
 } & HTMLAttributes<HTMLDivElement>
 type ColourContainerProps = {
   isInverted: boolean
+  isTrueComponent: boolean
 } & HTMLAttributes<HTMLDivElement>
 
 const ColourContainer = styled.div<ColourContainerProps>`
-  background-color: var(--background-color);
+  background-color: ${({ isTrueComponent }) => (isTrueComponent ? 'var(--background-color)' : 'transparent')};
   color: var(--color-on-background);
   ${({ isInverted }) => (isInverted ? inverted : normal)}
 `

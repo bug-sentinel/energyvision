@@ -103,20 +103,20 @@ const MultiplePromotions = ({
       case 'news':
       case 'localNews':
         return (
-          <StyledBackground key={data.id}>
+          <StyledBackground key={data.id} isTrueComponent={false}>
             <StyledNewsCard data={data as CardData} key={data.id} />
           </StyledBackground>
         )
       case 'topics':
       case 'magazine':
         return (
-          <StyledBackground key={data.id}>
+          <StyledBackground key={data.id} isTrueComponent={false}>
             <StyledTopicPageCard data={data as CardData} key={data.id} />
           </StyledBackground>
         )
       case 'people':
         return (
-          <StyledBackground key={data.id}>
+          <StyledBackground key={data.id} isTrueComponent={false}>
             <StyledPeopleCard data={data as PeopleCardData} hasSectionTitle={hasSectionTitle} key={data.id} />
           </StyledBackground>
         )
