@@ -28,8 +28,8 @@
     "@chakra-ui/skip-nav": "^2.0.12",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
-    "@equinor/eds-core-react": "0.33.0",
-    "@equinor/eds-icons": "^0.19.1",
+    "@equinor/eds-core-react": "0.36.0",
+    "@equinor/eds-icons": "^0.21.0",
     "@equinor/eds-tokens": "^0.9.0",
     "@floating-ui/react": "^0.26.9",
     "@next/bundle-analyzer": "^12.1.0",
@@ -74,7 +74,7 @@
     "react-intl": "^6.0.2",
     "react-is": "^18.1.0",
     "react-twitter-embed": "^4.0.4",
-    "sharp": "^0.32.6",
+    "sharp": "^0.33.2",
     "styled-components": "^5.3.9",
     "styled-normalize": "^8.0.7",
     "swiper": "^9.2.3",
@@ -115,7 +115,7 @@
     "storybook-css-modules-preset": "^1.1.1",
     "styled-jsx": "^5.1.2",
     "typescript": "4.8.4",
-    "vite": "^4.2.2",
+    "vite": "^4.5.2",
     "webpack": "^5.88.2"
   }
 }
