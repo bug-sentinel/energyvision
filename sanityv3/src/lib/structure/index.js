@@ -13,6 +13,7 @@ import { News as NewsStructure } from './items/News'
 import { Routes } from './items/Routes'
 import { Settings } from './items/Settings'
 import { TopicContent } from './items/TopicContent'
+import { UnusedAndPublished } from './items/UnusedAndPublished'
 
 const News = (S) => Flags.HAS_NEWS && NewsStructure(S)
 const Magazine = (S) => Flags.HAS_MAGAZINE && MagazineStructure(S)
@@ -39,6 +40,8 @@ const ADMIN_ITEMS = (S, context) =>
     AssetLibrary(S, context),
     S.divider(),
     Settings(S),
+    S.divider(),
+    UnusedAndPublished(S),
   ].filter((e) => e)
 
 const SUB_EDITOR_ITEMS = (S, context) =>
@@ -51,6 +54,8 @@ const SUB_EDITOR_ITEMS = (S, context) =>
     Event(S),
     S.divider(),
     AssetLibrary(S, context),
+    S.divider(),
+    UnusedAndPublished(S),
   ].filter((e) => e)
 
 const LOCAL_NEWS_EDITOR_ITEMS = (S, context) => [LocalNews(S, context)].filter((e) => e)

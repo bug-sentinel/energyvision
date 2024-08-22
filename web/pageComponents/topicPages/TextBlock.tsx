@@ -20,6 +20,7 @@ type TextBlockProps = {
   data: TextBlockData
   anchor?: string
   className?: string
+
 }
 
 const TextBlock = ({ data, anchor, className = '' }: TextBlockProps) => {
@@ -35,6 +36,7 @@ const TextBlock = ({ data, anchor, className = '' }: TextBlockProps) => {
     overrideButtonStyle = false,
     isBigText,
     useBrandTheme = false,
+    chip,
   } = data
   /* Don't render the component if it only has an eyebrow */
   if (!title && !ingress && !text && (!callToActions || callToActions.length === 0)) return null
@@ -125,8 +127,11 @@ const TextBlock = ({ data, anchor, className = '' }: TextBlockProps) => {
             splitList={splitList}
           />
         )}
+        
+        {/* <div>{chip.chipTitle}</div> */}
       </div>
     </StyledTextBlockWrapper>
+    
   )
 }
 

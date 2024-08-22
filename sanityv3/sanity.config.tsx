@@ -8,16 +8,10 @@ import {
   PluginOptions,
   SchemaTypeDefinition,
   Template,
+  WorkspaceOptions,
 } from 'sanity'
-
-import type {
-  InputProps,
-  ArrayOfObjectsInputProps,
-  SchemaType,
-  ArraySchemaType,
-  DocumentBadgeComponent,
-  DocumentFieldAction,
-} from 'sanity'
+import type { InputProps, ArrayOfObjectsInputProps, SchemaType, ArraySchemaType, DocumentBadgeComponent, DocumentFieldAction } from 'sanity'
+import { scheduledPublishing } from '@sanity/scheduled-publishing'
 import { deskTool, StructureBuilder } from 'sanity/desk'
 import deskStructure, { defaultDocumentNodeResolver } from './deskStructure'
 import { schemaTypes } from './schemas'
@@ -44,20 +38,15 @@ import { copyAction } from './actions/fieldActions/CustomCopyFieldAction'
 
 export const customTheme = buildLegacyTheme(partialStudioTheme)
 
-// @TODO:
-// isArrayOfBlocksSchemaType helper function from Sanity is listed as @internal
-// refactor to use that once stable
 const isArraySchemaType = (schema: SchemaType): schema is ArraySchemaType => schema.name === 'array'
 const isPortableTextEditor = (schema: SchemaType) => {
   if (!isArraySchemaType(schema)) return false
-
   return schema?.of && Array.isArray(schema.of) && schema.of[0]?.name === 'block'
 }
 
 const handleInputComponents = (inputProps: InputProps) => {
   if (isPortableTextEditor(inputProps.schemaType))
     return <CharCounterEditor {...(inputProps as ArrayOfObjectsInputProps)} />
-
   return inputProps.renderDefault(inputProps)
 }
 
@@ -74,7 +63,7 @@ const getStudioTitle = (dataset: string) => {
   }
 }
 
-const getConfig = (datasetParam: string, projectIdParam: string, isSecret = false) => ({
+const getConfig = (datasetParam: string, projectIdParam: string, isSecret = false): WorkspaceOptions => ({
   name: 'equinor-' + datasetParam,
   title: 'Studio [' + getStudioTitle(datasetParam) + ']',
   icon: DatabaseIcon,
@@ -90,9 +79,7 @@ const getConfig = (datasetParam: string, projectIdParam: string, isSecret = fals
   plugins: [
     documentInternationalization(i18n),
     deskTool({
-      structure: (S: StructureBuilder, context: ConfigContext) => {
-        return deskStructure(S, context)
-      },
+      structure: (S: StructureBuilder, context: ConfigContext) => deskStructure(S, context),
       defaultDocumentNode: defaultDocumentNodeResolver,
       name: 'desk',
       title: 'Desk',
@@ -108,7 +95,6 @@ const getConfig = (datasetParam: string, projectIdParam: string, isSecret = fals
         follow: ['inbound'],
       }),
   ].filter((e) => e) as PluginOptions[],
-
   schema: {
     types: schemaTypes as SchemaTypeDefinition[],
     templates: (prev: Template<any, any>[]) => [...filterTemplates(prev), ...initialValueTemplates],
@@ -118,9 +104,7 @@ const getConfig = (datasetParam: string, projectIdParam: string, isSecret = fals
       if (isSecret) prev.push(ResetCrossDatasetToken)
       if (i18n.schemaTypes.includes(context.schemaType)) prev.push(DeleteTranslationAction)
       return prev
-        .filter(({ action }: DocumentActionComponent) => {
-          return !(action === 'delete' && i18n.schemaTypes.includes(context.schemaType))
-        })
+        .filter(({ action }: DocumentActionComponent) => !(action === 'delete' && i18n.schemaTypes.includes(context.schemaType)))
         .map((originalAction) => {
           switch (originalAction.action) {
             case 'publish':
@@ -136,7 +120,13 @@ const getConfig = (datasetParam: string, projectIdParam: string, isSecret = fals
       enabled: false,
     },
     badges: (prev: DocumentBadgeComponent[], context: any) => {
-      return i18n.schemaTypes.includes(context.schemaType) ? [LangBadge, ...prev] : prev
+      if (i18n.schemaTypes.includes(context.schemaType)) {
+        return [
+          ...prev,
+          LangBadge
+        ]
+      }
+      return prev
     },
     unstable_fieldActions: (previous: DocumentFieldAction[]) => {
       return previous.map((it) => (it.name === 'copyField' ? copyAction : it))

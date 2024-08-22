@@ -1,25 +1,31 @@
-import { TeaserImagePosition, TeaserImageSize } from '@components'
-import { PortableTextBlock } from '@portabletext/types'
+import { TeaserImagePosition, TeaserImageSize } from '@components';
+import { PortableTextBlock } from '@portabletext/types';
 import {
   SanityImageCrop,
   SanityImageHotspot,
   SanityImageObject,
   SanityImageSource,
-} from '@sanity/image-url/lib/types/types'
-import { ColorKeyTokens } from '../styles/colorKeyToUtilityMap'
-import { RowType } from '@sections/Grid/mapGridContent'
+} from '@sanity/image-url/lib/types/types';
+import { ColorKeyTokens } from '../styles/colorKeyToUtilityMap';
+import { RowType } from '@sections/Grid/mapGridContent';
+
+export type ChipData = {
+  type: string;
+  id: string;
+  chipTitle: string;
+};
 
 export type CaptionData = {
-  attribution?: string
-  caption?: string
-}
+  attribution?: string;
+  caption?: string;
+};
 
 export type ImageWithCaptionData = {
-  _type: 'imageWithAltAndCaption'
-  _key?: string
-  image: ImageWithAlt
-  asset: SanityImageObject
-} & CaptionData
+  _type: 'imageWithAltAndCaption';
+  _key?: string;
+  image: ImageWithAlt;
+  asset: SanityImageObject;
+} & CaptionData;
 
 export type LinkType =
   | 'internalUrl'
@@ -29,104 +35,105 @@ export type LinkType =
   | 'dateField'
   | 'textField'
   | 'numberField'
-  | 'linkSelector'
+  | 'linkSelector';
 
 export type LinkData = {
-  type?: LinkType
-  id?: string
-  label: string
-  ariaLabel?: string
-  link?: { slug: string; type: string; lang: string }
-  href?: string
-  extension?: string
-  fileName?: string
-  anchorReference?: string
-  filename?: string
-}
+  type?: LinkType;
+  id?: string;
+  label: string;
+  ariaLabel?: string;
+  link?: { slug: string; type: string; lang: string };
+  href?: string;
+  extension?: string;
+  fileName?: string;
+  anchorReference?: string;
+  filename?: string;
+};
 
 export type SeoData = {
-  documentTitle?: string
-  metaDescription?: string
-  openGraphImage?: ImageWithAlt
-}
+  documentTitle?: string;
+  metaDescription?: string;
+  openGraphImage?: ImageWithAlt;
+};
 
 export type RelatedLinksData = {
-  title: string
-  links: LinkData[]
-}
+  title: string;
+  links: LinkData[];
+};
 
 export type IntlData = {
-  locale: string
-  defaultLocale: string
-  messages: Record<string, string>
-}
+  locale: string;
+  defaultLocale: string;
+  messages: Record<string, string>;
+};
 
 export type ImageWithAlt = {
-  isDecorative: boolean
-  alt?: string
-  asset: SanityImageObject
-  crop?: SanityImageCrop
-  hotspot?: SanityImageHotspot
-  _type: 'imageWithAlt'
-  extension?: string
-}
+  url?: string;
+  isDecorative: boolean;
+  alt?: string;
+  asset: SanityImageObject;
+  crop?: SanityImageCrop;
+  hotspot?: SanityImageHotspot;
+  _type: 'imageWithAlt';
+  extension?: string;
+};
 
 export type ErrorPageData = {
-  documentTitle?: string
-  metaDescription?: string
-  backgroundImage: SanityImageSource
-  title?: PortableTextBlock[]
-  text?: PortableTextBlock[]
-}
+  documentTitle?: string;
+  metaDescription?: string;
+  backgroundImage: SanityImageSource;
+  title?: PortableTextBlock[];
+  text?: PortableTextBlock[];
+};
 
-export type CardTypes = 'news' | 'topics' | 'people' | 'events'
+export type CardTypes = 'news' | 'topics' | 'people' | 'events';
 
 export type EventDateType = {
-  date: string
-  startTime?: string
-  endTime?: string
-  timezone: string
-}
+  date: string;
+  startTime?: string;
+  endTime?: string;
+  timezone: string;
+};
 
 export type CardData = {
-  type?: 'news' | 'topics' | 'localNews' | 'magazine'
-  id: string
-  slug: string
-  title: string | PortableTextBlock[]
-  publishDateTime?: string
-  heroImage: ImageWithCaptionData
-  openGraphImage?: ImageWithAlt
-  ingress?: PortableTextBlock[]
-  heroType?: HeroTypes
-}
+  type?: 'news' | 'topics' | 'localNews' | 'magazine';
+  id: string;
+  slug: string;
+  title: string | PortableTextBlock[];
+  publishDateTime?: string;
+  heroImage: ImageWithCaptionData;
+  openGraphImage?: ImageWithAlt;
+  ingress?: PortableTextBlock[];
+  heroType?: HeroTypes;
+};
 
 export type MagazineCardData = {
-  slug: string
-  title: string | PortableTextBlock[]
-  tags?: string[]
-  heroImage?: ImageWithAlt
-}
+  slug: string;
+  title: string | PortableTextBlock[];
+  tags?: string[];
+  heroImage?: ImageWithAlt;
+};
 
 export type FeaturedContentData = {
-  type?: string // news, localNews, route_${locale}
-  routeContentType?: 'page' | 'event'
-  location?: string
-  eventDate?: EventDateType
-} & CardData
+  type?: string; // news, localNews, route_${locale}
+  routeContentType?: 'page' | 'event';
+  location?: string;
+  eventDate?: EventDateType;
+} & CardData;
 
 export type PeopleCardData = {
-  type?: 'people'
-  id: string
-  image?: ImageWithAlt
-  name: string
-  title?: string
-  department?: string
-  email?: string
-  phone?: string
-  isLink: boolean
-  cv?: LinkData
-  enableStructuredMarkup?: boolean
-}
+  type?: 'people';
+  id: string;
+  image?: ImageWithAlt;
+  name: string;
+  title?: string;
+  department?: string;
+  email?: string;
+  phone?: string;
+  isLink: boolean;
+  cv?: LinkData;
+  enableStructuredMarkup?: boolean;
+};
 
 export type EventPromotionSettings = {
   manuallySelectEvents: boolean
@@ -137,31 +144,58 @@ export type EventPromotionSettings = {
 }
 
 export type EventCardData = {
-  id: string
-  type: 'events'
-  title: PortableTextBlock[]
-  slug: string
-  location?: string
-  eventDate: EventDateType
-  ingress?: PortableTextBlock[]
-}
+  id: string;
+  type: 'events';
+  title: PortableTextBlock[];
+  slug: string;
+  location?: string;
+  eventDate: EventDateType;
+  ingress?: PortableTextBlock[];
+};
+
+export const getImageUrl = (imageWithAlt: ImageWithAlt) => {
+  return imageWithAlt.asset;
+};
+
+export type EditorPicksData = {
+  articles: {
+    _id: string;
+    title: string;
+    slug: {
+      current: string;
+    };
+  }[];
+};
+
+ 
+export type AuthorData = {
+  name: string;
+  email?: string;
+  dob?: string;
+  bio?: string;
+  experience?: string;
+  photo?: ImageWithAlt;
+};
 
 export type NewsSchema = {
-  slug: string
-  title: string
-  documentTitle?: string
-  metaDescription?: string
-  openGraphImage?: ImageWithAlt
-  id: string
-  updatedAt: string
+  slug: string;
+  title: string;
+  documentTitle?: string;
+  metaDescription?: string;
+  openGraphImage?: ImageWithAlt;
+  id: string;
+  updatedAt: string; 
   publishDateTime: string
-  heroImage: ImageWithCaptionData
-  ingress: PortableTextBlock[]
-  content: PortableTextBlock[]
-  relatedLinks: RelatedLinksData
-  iframe: IFrameData
-  latestNews: CardData[]
-}
+  teaserImage: ImageWithAlt; 
+  heroImage: ImageWithCaptionData; 
+  ingress: PortableTextBlock[]; 
+  content: PortableTextBlock[]; 
+  relatedLinks: RelatedLinksData; 
+  iframe: IFrameData; 
+  latestNews: CardData[]; 
+  author?: AuthorData; 
+  editorPicks?: EditorPicksData;
+  }
 
 export type PortableTextChild = {
   _key: string
@@ -238,6 +272,10 @@ export type PageSchema = {
     defaultBreadcrumbs: Breadcrumb[]
     customBreadcrumbs: Breadcrumb[]
   }
+  chip: {
+    chipTitle: string,
+    _type: string,
+}
 }
 
 export type TopicPageSchema = PageSchema
@@ -307,6 +345,7 @@ export type TextBlockData = {
   splitList?: boolean
   overrideButtonStyle?: boolean
   designOptions: DesignOptions
+  chip: {_type: string, chipTitle : string}
 }
 
 // This type is deprecated

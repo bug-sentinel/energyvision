@@ -14,7 +14,7 @@ const title = `title.${defaultLanguage.name}`
 
 export default {
   type: 'document',
-  name: `countryTag`,
+  name: `countryTag`,   
   title: `Country`,
   icons: () => EdsIcon(world),
   fields: [

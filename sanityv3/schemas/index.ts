@@ -79,6 +79,8 @@ import gridTeaser from './objects/grid/cellTypes/gridTeaser'
 import threeColumns from './objects/grid/rowTypes/3columns'
 import gridColorTheme from './objects/grid/theme'
 import transcript from './objects/transcript'
+import chip from './objects/chip'
+import author from './documents/news/author'
 
 const {
   pageNotFound,
@@ -122,7 +124,7 @@ const MenuSchemas = Flags.HAS_FANCY_MENU
 const LocalNewsSchemas = Flags.HAS_LOCAL_NEWS ? [localNews, localNewsTag] : []
 const EventSchemas = Flags.HAS_EVENT ? [event, eventDate, eventTag] : []
 const LandingPageSchemas = Flags.HAS_LANDING_PAGE ? [landingPage] : []
-const NewsSchemas = Flags.HAS_NEWS ? [news, newsList, promoteNews, tag, countryTag] : []
+const NewsSchemas = Flags.HAS_NEWS ? [news, newsList, promoteNews, tag, countryTag, author] : []
 const NewsRoomSchema = Flags.HAS_NEWSROOM ? [newsroom] : []
 const FormSchemas = Flags.HAS_FORMS ? [form] : []
 const MagazineSchemas = Flags.HAS_MAGAZINE
@@ -204,6 +206,7 @@ const RemainingSchemas = [
   threeColumns,
   gridColorTheme,
   transcript,
+  chip,
 ]
 
 // Then we give our schema to the builder and provide the result to Sanity

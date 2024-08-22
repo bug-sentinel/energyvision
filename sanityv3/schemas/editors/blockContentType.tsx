@@ -29,6 +29,15 @@ export type BlockContentProps = {
   extendedStyles?: BlockStyleDefinition[]
 }
 
+const colorDecorators = defaultColors.map(color => ({
+  title: color.title,
+  value: color.key,
+  blockEditor: {
+    icon: () => <span style={{ backgroundColor: color.value, width: '100%', height: '100%' }} />,
+    render: (props: { children: React.ReactNode }) => <span style={{ color: color.value }}>{props.children}</span>,
+  },
+}))
+
 export const textColorConfig = {
   title: 'Highlight',
   value: 'highlight',
@@ -115,6 +124,7 @@ export const configureBlockContent = (options: BlockContentProps = {}): BlockDef
           icon: IconSuperScript,
           component: SuperScriptRenderer,
         },
+        ...colorDecorators,
       ],
       annotations: [
         {

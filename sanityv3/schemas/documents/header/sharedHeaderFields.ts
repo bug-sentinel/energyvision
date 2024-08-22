@@ -11,6 +11,7 @@ type DocumentType = { parent: Hero; currentUser: CurrentUser }
 type Hero = {
   heroType?: HeroTypes
   isBigTitle?: boolean
+  showChip?: boolean
 }
 
 const titleContentType = configureTitleBlockContent()
@@ -246,6 +247,13 @@ const heroLoopingVideoRatio = {
     }),
   fieldset: 'header',
 }
+const showChip = {
+  title: 'Show Chips',
+  name: 'showChip',
+  type: 'boolean',
+  fieldset: 'header',
+  hidden:  ({ parent }: DocumentType) => !parent.showChip,// Hide chips if showChip is false
+}
 
 export default [
   isBigTitle,
@@ -261,4 +269,5 @@ export default [
   heroImage,
   heroLoopingVideo,
   heroLoopingVideoRatio,
+  showChip,
 ]

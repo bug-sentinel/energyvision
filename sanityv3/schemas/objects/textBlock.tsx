@@ -5,7 +5,8 @@ import type { ColorSelectorValue } from '../components/ColorSelector'
 import blocksToText from '../../helpers/blocksToText'
 import { EdsIcon } from '../../icons'
 import CompactBlockEditor from '../components/CompactBlockEditor'
-import { configureBlockContent, configureTitleBlockContent } from '../editors'
+import { BlockContentProps, configureBlockContent, configureTitleBlockContent } from '../editors'
+
 
 const blockContentType = configureBlockContent({
   h2: false,
@@ -53,10 +54,15 @@ type TextBlock = {
   splitList?: boolean
   overrideButtonStyle?: boolean
   background?: ColorSelectorValue
+  wantChip?: boolean
+  chip?: {
+    chipTitle?: string
+  }[]
 }
 
 type TextBlockDocument = {
   parent: TextBlock
+  wantChip?: boolean;
 }
 
 export default {
@@ -127,6 +133,7 @@ export default {
       },
       of: [titleContentType],
       validation: (Rule: Rule) =>
+      //@ts-ignore
         Rule.custom((value: PortableTextBlock[], ctx: ValidationContext) =>
           !value ? 'A title is recommended' : true,
         ).warning(),
@@ -173,7 +180,7 @@ export default {
       name: 'text',
       title: 'Text content',
       type: 'array',
-      of: [blockContentType],
+      of: [blockContentType,{ type: 'chip' }],
     },
     {
       name: 'action',
@@ -218,6 +225,32 @@ export default {
       name: 'background',
       readOnly: true,
       type: 'colorlist',
+    },
+    {
+      name: 'wantChip',
+      title: 'Want Chip',
+      type: 'boolean',
+      initialValue: false,
+      
+    },
+    {
+      name: 'chip',
+      title: 'Chip',
+      type: 'chip',
+      description: 'Add a Chip to the text block',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      hidden: ({ parent }: TextBlockDocument) => !parent.wantChip,
+      validation: (Rule: Rule) =>
+    Rule.custom((value: string, context: ValidationContext) => {
+      const { parent } = context as TextBlockDocument
+      if (parent?.wantChip && !value) {
+        return 'Chip is required when Want Chip is enabled'
+      }
+      return true
+    }),
     },
   ].filter((e) => e),
   preview: {

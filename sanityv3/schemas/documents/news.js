@@ -1,12 +1,12 @@
-import slugify from 'slugify'
-import { newsSlug } from '../../../satellitesConfig'
-import { formatDate } from '../../helpers/formatDate'
-import { defaultLanguage } from '../../languages'
-import { Flags } from '../../src/lib/datasetHelpers'
-import SlugInput from '../components/SlugInput'
-import { withSlugValidation } from '../validations/validateSlug'
-import { file_add } from '@equinor/eds-icons'
-import { lang } from './langField'
+import slugify from 'slugify';
+import { newsSlug } from '../../../satellitesConfig';
+import { formatDate } from '../../helpers/formatDate';
+import { defaultLanguage } from '../../languages';
+import { Flags } from '../../src/lib/datasetHelpers';
+import SlugInput from '../components/SlugInput';
+import { withSlugValidation } from '../validations/validateSlug';
+import { file_add } from '@equinor/eds-icons';
+import { lang } from './langField';
 import {
   content,
   countryTags,
@@ -23,8 +23,9 @@ import {
   subscriptionType,
   tags,
   title,
-} from './news/sharedNewsFields'
-import { EdsIcon } from '../../icons'
+} from './news/sharedNewsFields';
+import { EdsIcon } from '../../icons';
+import editorPicksInput from './news/editorPicksInput'; // Make sure to use the correct path to editorPicksInput
 
 export default {
   title: 'News',
@@ -90,17 +91,31 @@ export default {
       options: withSlugValidation({
         source: (doc) => {
           // translated document ids end with _i18n__lang while base documents don't
-          return doc.newsSlug ? `${slugify(doc.newsSlug, { lower: true })}` : ''
+          return doc.newsSlug ? `${slugify(doc.newsSlug, { lower: true })}` : '';
         },
         slugify: (input, _schemaType, context) => {
-          const slug = slugify(input)
-          const { parent: document } = context
-          const translatedNews = document.lang ? `/${newsSlug[document.lang]}` : `/${newsSlug[defaultLanguage.name]}`
-          return `${translatedNews}/${slug}`
+          const slug = slugify(input);
+          const { parent: document } = context;
+          const translatedNews = document.lang ? `/${newsSlug[document.lang]}` : `/${newsSlug[defaultLanguage.name]}`;
+          return `${translatedNews}/${slug}`;
         },
       }),
       description: '⚠️ Double check for typos and get it right on the first time! ⚠️',
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{ type: 'author' }],
+      validation: (Rule) => Rule.required().error('Author is required'),
+    },
+    {
+      name: 'editorPicks',
+      title: 'Editor Picks',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'news' }] }],
+      inputComponent: editorPicksInput,
     },
     heroImage,
     ingress,
@@ -117,19 +132,20 @@ export default {
       publishedDate: 'publishDateTime',
       firstPublishedAt: 'firstPublishedAt',
       isCustomDate: 'customPublicationDate',
+      author: 'author.name',
     },
     prepare(selection) {
-      const { title, media, description, publishedDate, firstPublishedAt, isCustomDate } = selection
+      const { title, media, description, publishedDate, firstPublishedAt, isCustomDate, author } = selection;
       const date =
         publishedDate && isCustomDate
           ? formatDate(publishedDate)
           : firstPublishedAt
           ? formatDate(firstPublishedAt)
-          : 'Not Published'
-      const ingressBlock = (description || []).find((ingressBlock) => ingressBlock._type === 'block')
+          : 'Not Published';
+      const ingressBlock = (description || []).find((ingressBlock) => ingressBlock._type === 'block');
       return {
         title,
-        subtitle: `Published date: ${date}`,
+        subtitle: `Published date: ${date} - Author: ${author}`,
         description: ingressBlock
           ? ingressBlock.children
               .filter((child) => child._type === 'span')
@@ -137,7 +153,7 @@ export default {
               .join('')
           : 'Missing lead',
         media,
-      }
+      };
     },
   },
-}
+};

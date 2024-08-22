@@ -16,6 +16,12 @@ import promoteMagazine from './promotions/promoteMagazine'
 import { lastUpdatedTimeQuery, publishDateTimeQuery } from './publishDateTime'
 
 const pageContentFields = /* groq */ `
+
+_type == "chip" =>{
+  "id": _key,
+"type": _type,
+chipTitle
+},
 _type == "keyNumbers" =>{
     ${keyNumbersFields}
   },
@@ -74,6 +80,7 @@ _type == "keyNumbers" =>{
         bigTitle[]{..., ${markDefs}},
         title[]{..., ${markDefs}}
       ),
+      chip,
     'useBrandTheme': coalesce(useBrandTheme, false),
     ingress[]{..., ${markDefs}},
     text[]{..., ${markDefs}},
@@ -578,6 +585,6 @@ _type == "keyNumbers" =>{
       }
     },
   },
-`
+  `
 
 export default pageContentFields

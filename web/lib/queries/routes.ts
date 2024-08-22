@@ -26,7 +26,8 @@ export const routeQuery = /* groq */ `
     "hero": content->${heroFields},
     "template": content->_type,
     content->_type == "page" => {
-      "isCampaign":content->isCampaign
+      "isCampaign":content->isCampaign,
+      "chip":content->chip
     },
     "breadcrumbs": {
       ${breadcrumbsQuery}

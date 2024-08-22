@@ -23,7 +23,6 @@ const latestNewsFields = /* groq */ `
   "slug": slug.current,
   "iframe": ${iframeForNewsQuery},
 `
-
 const newsFields = /* groq */ `
   "id": _id,
   "updatedAt": ${lastUpdatedTimeQuery},
@@ -35,6 +34,19 @@ const newsFields = /* groq */ `
   "iframe": ${iframeForNewsQuery},
   "content": ${contentForNewsQuery},
   "relatedLinks": ${relatedLinksForNewsQuery},
+  "author": author->{
+    name,
+    "photo": photo.asset->url,
+    dob,
+    email,
+    bio,
+    experience
+  },
+  "editorPicks": editorPicks[]-> {
+    _id,
+    title,
+    "slug": slug.current
+  },
   "latestNews": *[
     _type == "news" &&
     slug.current != $slug &&

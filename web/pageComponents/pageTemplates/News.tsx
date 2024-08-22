@@ -4,14 +4,14 @@ import { Heading, FormattedDateTime, BackgroundContainer } from '@components'
 import styled from 'styled-components'
 import { Icon } from '@equinor/eds-core-react'
 import { calendar } from '@equinor/eds-icons'
-import DefaulHeroImage from '../shared/Hero/DefaultHeroImage'
+import DefaultHeroImage from '../shared/Hero/DefaultHeroImage'
 import IngressText from '../shared/portableText/IngressText'
 import LatestNews from '../news/LatestNews'
 import getOpenGraphImages from '../../common/helpers/getOpenGraphImages'
 import BasicIFrame from '../shared/iframe/BasicIFrame'
 import { getFullUrl } from '../../common/helpers/getFullUrl'
 import { metaTitleSuffix } from '../../languages'
-import type { NewsSchema } from '../../types/types'
+import { EditorPicksData, getImageUrl, type NewsSchema } from '../../types/types'
 import { toPlainText } from '@portabletext/react'
 import Blocks from '../shared/portableText/Blocks'
 import { twMerge } from 'tailwind-merge'
@@ -97,6 +97,77 @@ const LeadParagraph = styled.div`
   }
 `
 
+const AuthorSection = styled.div`
+  margin-top: var(--space-3xLarge);
+  padding: 0 var(--layout-paddingHorizontal-large);
+  max-width: var(--maxViewportWidth);
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  & img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+
+  & p {
+    margin: var(--space-small) 0;
+  }
+`
+
+const AuthorImage = styled.img`
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+`
+
+const AuthorLabel = styled.h6`
+  margin-bottom: var(--space-small);
+  font-size: var(--typeScale-2);
+  text-transform: uppercase;
+  color: var(--primaryColor);
+`
+
+const EditorPicksSection = styled.div`
+  padding: 0 var(--layout-paddingHorizontal-large);
+  max-width: var(--maxViewportWidth);
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: var(--space-4xLarge);
+
+  & h3 {
+    margin-bottom: var(--space-large);
+  }
+
+  & ul {
+    list-style: none;
+    padding: 0;
+
+    & li {
+      margin-bottom: var(--space-small);
+    }
+
+    & a {
+      font-size: var(--typeScale-3);
+      text-decoration: none;
+      color: var(--primaryColor); 
+      transition: color 0.3s, transform 0.3s;
+
+      &:hover {
+        color: var(--secondaryColor); 
+        transform: scale(1.05);
+      }
+    }
+  }
+`
+
+
 const isDateAfter = (a: string, b: string) => {
   const dtA = new Date(a).getTime()
   const dtB = new Date(b).getTime()
@@ -106,13 +177,12 @@ const isDateAfter = (a: string, b: string) => {
 
 type ArticleProps = {
   data: NewsSchema
+  editorPicks?: EditorPicksData
 }
 
 const NewsPage = ({ data: news }: ArticleProps) => {
   const router = useRouter()
-  /*  const appInsights = useAppInsightsContext() */
-  const slug = news?.slug
-
+  const slug = news?.slug;
   const { pathname, locale } = router
 
   const fullUrl = getFullUrl(pathname, slug, locale)
@@ -130,14 +200,18 @@ const NewsPage = ({ data: news }: ArticleProps) => {
     iframe,
     relatedLinks,
     latestNews,
+    author,
+    editorPicks,
   } = news
+
+  // Log the editorPicks data to check the structure
+  console.log('Editor Picks Data:', editorPicks)
 
   const modifiedDate = isDateAfter(publishDateTime, updatedAt) ? publishDateTime : updatedAt
 
   const openGraphImages = getOpenGraphImages((openGraphImage?.asset ? openGraphImage : null) || heroImage?.image)
-  /*   appInsights.trackPageView({ name: slug, uri: fullUrl }) */
   return (
-    <>
+    <>  
       <NextSeo
         title={`${documentTitle || title} - ${metaTitleSuffix}`}
         description={metaDescription}
@@ -152,12 +226,7 @@ const NewsPage = ({ data: news }: ArticleProps) => {
           url: fullUrl,
           images: openGraphImages,
         }}
-        // twitter={{
-        //   handle: '@handle',
-        //   site: '@site',
-        //   cardType: 'summary_large_image',
-        // }}
-      ></NextSeo>
+      />
       <NewsArticleJsonLd
         url={fullUrl}
         title={title}
@@ -167,7 +236,7 @@ const NewsPage = ({ data: news }: ArticleProps) => {
         dateModified={modifiedDate}
         section=""
         keywords=""
-        authorName=""
+        authorName={author?.name || ''}
         publisherName="Equinor"
         publisherLogo="https://cdn.eds.equinor.com/logo/equinor-logo-horizontal.svg#red"
         description={toPlainText(ingress)}
@@ -186,30 +255,26 @@ const NewsPage = ({ data: news }: ArticleProps) => {
                     <Icon data={calendar} />
                     <DateContainer>
                       <FormattedDateTime uppercase datetime={publishDateTime} timezone />
-                      {
-                        // publishDateTime + 5 minutes
-                        isDateAfter(
-                          modifiedDate,
-                          new Date(new Date(publishDateTime).getTime() + 5 * 60000).toISOString(),
-                        ) && (
-                          <>
-                            <LastModifiedLabel>Last modified</LastModifiedLabel>
-                            <FormattedDateTime uppercase datetime={modifiedDate} />
-                          </>
-                        )
-                      }
+                      {isDateAfter(
+                        modifiedDate,
+                        new Date(new Date(publishDateTime).getTime() + 5 * 60000).toISOString(),
+                      ) && (
+                        <>
+                          <LastModifiedLabel>Last modified</LastModifiedLabel>
+                          <FormattedDateTime uppercase datetime={modifiedDate} />
+                        </>
+                      )}
                     </DateContainer>
                   </DateWrapper>
                 )}
               </HeaderInner>
             </Header>
-            <Image>{heroImage && <DefaulHeroImage data={heroImage} />}</Image>
+            <Image>{heroImage && <DefaultHeroImage data={heroImage} />}</Image>
             {ingress && ingress.length > 0 && (
               <LeadParagraph>
                 <IngressText value={ingress} includeFootnotes />
               </LeadParagraph>
             )}
-
             {content && content.length > 0 && (
               <Blocks
                 value={content}
@@ -221,22 +286,31 @@ const NewsPage = ({ data: news }: ArticleProps) => {
             <div className="mt-8 mb-2 px-layout-lg max-w-viewport mx-auto">
               <Footnotes blocks={[...ingress, ...content]} />
             </div>
-
             {iframe && <BasicIFrame data={iframe} />}
-
             {relatedLinks?.links && relatedLinks.links.length > 0 && (
-              <RelatedContent
-                data={relatedLinks}
-                className={twMerge(`
-             px-layout-lg
-             max-w-viewport
-             my-3xl
-             mx-auto
-             `)}
-              />
+              <RelatedContent data={relatedLinks} className={twMerge('px-layout-lg max-w-viewport my-3xl mx-auto')} />
             )}
-
             {latestNews && latestNews.length > 0 && <LatestNews data={latestNews} />}
+            {author && (
+              <AuthorSection>
+                <AuthorLabel>About the Author</AuthorLabel>
+                {author.photo && typeof author.photo === 'string' && <img src={author.photo} alt={author.name} />}
+                <p>{author.name}</p>
+                {author.bio && <p>{author.bio}</p>}
+              </AuthorSection>
+            )}
+           {editorPicks && Array.isArray(editorPicks) && editorPicks.length > 0 && (
+              <EditorPicksSection>
+                <h3>Editor's Picks</h3>
+                <ul>
+                  {editorPicks.map((article) => (
+                    <li key={article._id}>
+                      <a href={`/news/${article.slug}`}>{article.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              </EditorPicksSection>
+            )} 
           </NewsLayout>
         </article>
       </main>

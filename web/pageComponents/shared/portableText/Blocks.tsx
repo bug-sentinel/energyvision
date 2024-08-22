@@ -10,6 +10,8 @@ import {
 import { PortableTextBlock, PortableTextBlockStyle } from '@portabletext/types'
 import { FigureWithLayout, Quote, Fact, ExternalLink, InternalLink, BasicIframe } from './components'
 import { twMerge } from 'tailwind-merge'
+import Chip from 'pageComponents/topicPages/Chip'
+import { ChipBlock } from './ChipBlock'
 import { FormattedMessage } from 'react-intl'
 
 export type BlockType = Record<PortableTextBlockStyle, PortableTextBlockComponent | undefined>
@@ -36,6 +38,9 @@ const defaultSerializers = {
     pullQuote: (props) => <Quote {...props} className="not-prose" />,
     //@ts-ignore
     basicIframe: (props) => <BasicIframe {...props} className="not-prose px-layout-md" />,
+    //@ts-ignore
+    chip: (props) => <ChipBlock {...props} />
+
   },
   marks: {
     sub: ({ children }: TypeProps) => <sub>{children}</sub>,
@@ -126,7 +131,7 @@ export type BlockProps = {
   includeFootnotes?: boolean
 } & PortableTextProps
 
-const inlineBlockTypes = ['block', 'positionedInlineImage', 'pullQuote', 'basicIframe']
+const inlineBlockTypes = ['block', 'positionedInlineImage', 'pullQuote', 'basicIframe','chip']
 
 //@ts-ignore
 export default function Blocks({

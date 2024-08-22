@@ -44,6 +44,7 @@ const TopicPage = ({ data }: TopicPageProps) => {
           <SharedTitle sharedTitle={data.title} background={titleStyles.background} />
         )}
         <PageContent data={data} titleBackground={titleStyles} />
+        <div>{data?.chip?.chipTitle}</div>
       </main>
     </>
   )

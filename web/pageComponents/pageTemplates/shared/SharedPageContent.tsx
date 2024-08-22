@@ -52,11 +52,13 @@ import {
   GridData,
   CampaignBannerData,
   DesignOptions,
+  ChipData,
 } from '../../../types/types'
 import { getColorForTheme } from '../../shared/textTeaser/theme'
 import Grid from '@sections/Grid/Grid'
 import { CampaignBanner } from '@sections/CampaignBanner'
 import { BackgroundContainerProps } from '@components/Backgrounds'
+import Chip from 'pageComponents/topicPages/Chip'
 import VideoPlayerCarousel from '@sections/VideoPlayerCarousel/VideoPlayerCarousel'
 import ImageCarousel from '@sections/ImageCarousel/ImageCarousel'
 
@@ -89,6 +91,7 @@ export type ComponentProps =
   | TextTeaserData
   | KeyNumbersData
   | DefaultComponent
+  | ChipData
 
 type PageContentProps = {
   data: TopicPageSchema | MagazinePageSchema
@@ -337,11 +340,14 @@ export const PageContent = ({ data, titleBackground }: PageContentProps) => {
         )
       case 'grid':
         return <Grid key={c.id} data={c as GridData} anchor={anchorReference} className={topSpacingClassName} />
+      case 'chip':
+        return  <Chip key ={c.id} data ={c as ChipData}/>
       case 'campaignBanner':
         return <CampaignBanner key={c.id} data={c as CampaignBannerData} />
       default:
         return null
     }
   })
+  console.log(data);
   return <>{content}</>
 }
