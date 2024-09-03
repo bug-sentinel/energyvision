@@ -1,6 +1,7 @@
 import { configureBlockContent } from '../../editors/blockContentType'
 import { validateCharCounterEditor } from '../../validations/validateCharCounterEditor'
 import type { Rule, ValidationContext } from 'sanity'
+import { validateNoLists } from '../../validations/validateNoLists'
 
 const blockContentType = configureBlockContent()
 const ingressBlockContentType = configureBlockContent({
@@ -171,7 +172,15 @@ export const ingress = {
   description: 'Lead paragraph. Shown in article and on cards. Max 400 characters',
   type: 'array',
   of: [ingressBlockContentType],
-  validation: (Rule: Rule) => Rule.custom((value: any) => validateCharCounterEditor(value, 400)),
+  validation: (Rule: Rule) =>
+    Rule.custom((value, context) => {
+      const validateChars = validateCharCounterEditor(value, 400)
+      if (validateChars) {
+        validateNoLists(value, context)
+      } else {
+        return validateChars
+      }
+    }),
 }
 
 export const content = {
