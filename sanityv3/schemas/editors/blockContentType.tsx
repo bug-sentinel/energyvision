@@ -1,4 +1,4 @@
-import { attach_file, external_link, format_color_text, link, star_filled } from '@equinor/eds-icons'
+import { attach_file, external_link, format_color_text, link, star_filled, view_list } from '@equinor/eds-icons'
 import type { BlockDefinition, BlockStyleDefinition, Rule, ValidationContext } from 'sanity'
 import { filterByPages, filterByPagesInOtherLanguages } from '../../helpers/referenceFilters'
 import { EdsBlockEditorIcon, EdsIcon, IconSubScript, IconSuperScript } from '../../icons'
@@ -6,7 +6,8 @@ import { Flags } from '../../src/lib/datasetHelpers'
 import { ExternalLinkRenderer, SubScriptRenderer, SuperScriptRenderer } from '../components'
 import routes from '../routes'
 import { defaultColors } from '../defaultColors'
-import { FootnoteRenderer } from './FootnoteRenderer'
+import footnote from '../objects/footnote'
+//import { FootnoteRenderer } from './FootnoteRenderer'
 
 export type BlockContentProps = {
   h2?: boolean
@@ -118,55 +119,19 @@ export const configureBlockContent = (options: BlockContentProps = {}): BlockDef
         },
       ],
       annotations: [
+        footnote,
         {
-          name: 'footnote',
+          name: 'existingFootnote',
           type: 'object',
-          title: 'Footnote',
-          icon: EdsIcon(star_filled),
+          title: 'Existing footnote',
+          icon: EdsIcon(view_list),
           fields: [
             {
-              name: 'marker',
-              title: 'Marker',
-              description: 'Enter the footnote marker as asteriks or number',
-              type: 'string',
-              validation: (Rule: Rule) => Rule.required(),
-            },
-            {
-              name: 'text',
-              title: 'Text',
-              type: 'array',
-              of: [
-                {
-                  type: 'block',
-                  styles: [],
-                  lists: [],
-                  marks: {
-                    decorators: [
-                      { title: 'Strong', value: 'strong' },
-                      { title: 'Emphasis', value: 'em' },
-                      {
-                        title: 'Sub',
-                        value: 'sub',
-                        icon: IconSubScript,
-                        component: SubScriptRenderer,
-                      },
-                      {
-                        title: 'Super',
-                        value: 'sup',
-                        icon: IconSuperScript,
-                        component: SuperScriptRenderer,
-                      },
-                    ],
-                    annotations: [],
-                  },
-                },
-              ],
-              validation: (Rule: Rule) => Rule.required(),
+              name: 'reference',
+              type: 'reference',
+              to: [{ type: 'footnote' }],
             },
           ],
-          components: {
-            annotation: FootnoteRenderer,
-          },
         },
       ],
     },
