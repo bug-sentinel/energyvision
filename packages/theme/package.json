@@ -1,0 +1,25 @@
+{
+  "name": "@equinor/energyvision-tailwind-preset",
+  "version": "0.1.0",
+  "description": "Tailwind preset for Energyvision theme",
+  "keywords": [
+    "tailwind"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/equinor/energyvision.git"
+  },
+  "homepage": "https://github.com/equinor/energyvision/tree/main/packages/theme",
+  "license": "MIT",
+  "main": "energy.config.js",
+  "files": [
+    "energyvision-tailwind-preset.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {},
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

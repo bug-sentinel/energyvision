@@ -14,6 +14,7 @@
     "lint:sanityv3": "eslint ./sanityv3/ --ext .js,.jsx,.ts,.tsx",
     "lint": "pnpm lint:web && pnpm lint:search && pnpm lint:sanityv3",
     "web": "pnpm --filter ./web",
+    "packages": "pnpm --filter ./packages",
     "sanityv3": "pnpm --filter ./sanityv3",
     "e2e": "pnpm --filter ./e2e",
     "search-indexers": "pnpm --filter ./search",
@@ -29,13 +30,15 @@
     "v3:dev": "pnpm sanityv3 dev",
     "v3:docker": "DOCKER_BUILDKIT=1 docker build --build-arg ARG_SANITY_DATASET=global-development -t envis/v3 -f sanityv3/Dockerfile .",
     "v3:run": "docker run -p 3333:3333 envis/v3",
-    "lint-staged": "lint-staged -c ./lint-staged-config.js"
+    "lint-staged": "lint-staged -c ./lint-staged-config.js",
+    "publish": "pnpm packages build && changesets publish"
   },
   "dependencies": {
     "husky": "^7.0.4",
     "is-ci": "^3.0.1"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.9",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",
     "eslint": "^8.45.0",
