@@ -41,7 +41,9 @@ const FotowareAssetSource = forwardRef<HTMLDivElement>((props: any, ref) => {
     (event: any) => {
       const validateAuthEvent = () => {
         if (event.origin !== REDIRECT_ORIGIN) {
-          return handleRequestError(`Invalid event origin: ${event.origin}`, setError, 'auth', newWindow)
+          console.log('Fotoware: invalid event origin', event.origin)
+          console.log('REDIRECT_ORIGIN', REDIRECT_ORIGIN)
+          /*  return handleRequestError(`Invalid event origin: ${event.origin}`, setError, 'auth', newWindow) */
         }
 
         if (event.data?.error) {
@@ -86,7 +88,8 @@ const FotowareAssetSource = forwardRef<HTMLDivElement>((props: any, ref) => {
 
       if (event.origin !== TENANT_URL) {
         console.log('Fotoware: invalid event origin', event.origin)
-        return false
+        console.log('TENANT_URL', TENANT_URL)
+        //return false
       }
 
       const { data } = event
